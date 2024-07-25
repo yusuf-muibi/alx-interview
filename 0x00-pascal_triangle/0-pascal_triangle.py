@@ -1,4 +1,6 @@
-#!usr/bin/python3
+#!/usr/bin/python3
+'''This function is designed to execute a Pascal's triangle.
+'''
 def pascal_triangle(n):
     """
     Generate Pascal's Triangle up to the n-th row.
