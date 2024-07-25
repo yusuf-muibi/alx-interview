@@ -1,27 +1,16 @@
-#!/usr/bin/python3
-"""
-0-main
-"""
-import importlib.util
-import sys
-
-# Load the module
-module_name = '0-pascal_triangle'
-file_path = './0-pascal_triangle.py'
-spec = importlib.util.spec_from_file_location(module_name, file_path)
-module = importlib.util.module_from_spec(spec)
-sys.modules[module_name] = module
-spec.loader.exec_module(module)
-
-pascal_triangle = module.pascal_triangle
-
-def print_triangle(triangle):
+def pascal_triangle(n):
     """
-    Print the triangle
+    Generate Pascal's Triangle up to the n-th row.
     """
-    for row in triangle:
-        print("[{}]".format(",".join([str(x) for x in row])))
+    if n <= 0:
+        return []
 
+    triangle = [[1]]
+    for i in range(1, n):
+        row = [1]
+        for j in range(1, i):
+            row.append(triangle[i-1][j-1] + triangle[i-1][j])
+        row.append(1)
+        triangle.append(row)
 
-if __name__ == "__main__":
-    print_triangle(pascal_triangle(5))
+    return triangle
