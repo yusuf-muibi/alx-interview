@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-'''a script that reads stdin line by line and computes metrics'''
-
+'''A script that reads stdin line by line and computes metrics'''
 
 import sys
 
@@ -14,24 +13,32 @@ try:
         line_list = line.split(" ")
         if len(line_list) > 4:
             code = line_list[-2]
-            size = int(line_list[-1])
-            if code in cache.keys():
-                cache[code] += 1
-            total_size += size
+            try:
+                size = int(line_list[-1])
+                if code in cache:
+                    cache[code] += 1
+                total_size += size
+            except (ValueError, IndexError):
+                continue
+
             counter += 1
 
         if counter == 10:
-            counter = 0
             print('File size: {}'.format(total_size))
             for key, value in sorted(cache.items()):
-                if value != 0:
+                if value > 0:
                     print('{}: {}'.format(key, value))
+            counter = 0
 
-except Exception as err:
-    pass
+except KeyboardInterrupt:
+    print('File size: {}'.format(total_size))
+    for key, value in sorted(cache.items()):
+        if value > 0:
+            print('{}: {}'.format(key, value))
+    raise
 
 finally:
     print('File size: {}'.format(total_size))
     for key, value in sorted(cache.items()):
-        if value != 0:
+        if value > 0:
             print('{}: {}'.format(key, value))
